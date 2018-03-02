@@ -1,0 +1,23 @@
+.item-menu {
+    width: 100%;
+    clear: both;
+    margin-top: 5px;
+    min-height: 55px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid gray;
+}
+
+.image-item {
+    width: 15%;
+    margin: 0;
+    float: left;
+    height: 50px;
+}
+
+.name-item {
+    padding-left: 15px;
+    width: 85%;
+    margin: 0;
+    height: 50px;
+    float: left;
+}
