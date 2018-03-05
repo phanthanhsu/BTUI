@@ -21,12 +21,24 @@
     height: 50px;
     float: left;
 }
-#content{
-}
-.chart{
+
+#content {}
+
+.chart {
     margin: 10px;
-    background-color: white;    
+    background-color: white;
 }
-.background-default{
+
+.background-default {
     background-color: aliceblue;
+}
+
+.select-transparent {
+    width: 100%;
+    padding: 10px;
+    background-color: transparent;
+    color: #ABB6C0;
+    border: 0;
+    border-bottom: 1px solid #ABB6C0;
+    margin-bottom: 10px;
 }

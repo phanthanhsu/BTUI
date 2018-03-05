@@ -31,9 +31,9 @@
             $("[id$=" + el + "]").focus();
         }
     </script>
-    <div class="row col-sm-12">
+    <div class="row">
         <div class="col-sm-8 col-sm-offset-2">
-            <div id="header" class="row col-sm-12" style="background-color: aquamarine;">
+            <div id="header" class="row" style="background-color: aquamarine;">
                 Header nè
             </div>
             <div class="row">
@@ -41,11 +41,11 @@
                     <div class="row panel-body" style="background-color: dimgrey; color: white;">
                         <h3>Infomation</h3>
                         <label for="">Group name</label>
-                        <select class="form-control">
+                        <select class="select-transparent">
                             <option value="A">Group A</option>
                         </select>
                         <label for="">Drive name</label>
-                        <select class="form-control">
+                        <select class="select-transparent">
                             <option value="Name10">Drive name 10</option>
                         </select>
                         <div class="row col-sm-12">
@@ -55,14 +55,14 @@
                             <div class="row col-sm-7">
                                 <label for="">Date</label>
                                 <div class="row col-sm-12">
-                                    <input type="datetime" id="txtDate" class="form-control" />
+                                    <input type="datetime" id="txtDate" class="select-transparent" maxlength="10" />
                                 </div>
                             </div>
                             <div class="row col-sm-6">
                                 <label for="">AAA</label>
-                                <select class="form-control">
+                                <select class="select-transparent">
                                         <option value="A">ABC</option>
-                                    </select>
+                                </select>
                             </div>
                         </div>
                         <div class="col-sm-12" style="text-align: center; margin: 10px;">
@@ -98,8 +98,8 @@
                                         </div>
                                     </div>
                                     <div class="tab-pane fade in active" id="tab2default">
-                                        <div style="width:100%; background-color: lightgrey;">
-                                            || Sort
+                                        <div style="width:100%; background-color: lightgrey; cursor: pointer;">
+                                            ⇅ Sort
                                         </div>
                                         <div class="item-menu">
                                             <div class="image-item">
@@ -179,7 +179,7 @@
                         </div>
                     </div>
                     <div class="text-center">
-                        <h2>Date 2018/03/03</h2>    
+                        <h2>Date 2018/03/03</h2>
                     </div>
                     <div>
                         <div class="item-menu" style="min-height: 30px;">
@@ -198,7 +198,7 @@
                             <label for="" class="pull-left">Speed</label>
                             <label for="" class="pull-right">115 <span>(km/h)</span></label>
                         </div>
-                    </div>                
+                    </div>
                     <div class="chart col-sm-12">
                         <div class="row">
                             Chart
@@ -207,7 +207,7 @@
                     </div>
                 </div>
             </div>
-            <div id="footer" class="row col-md-12" style="background-color: bisque;">
+            <div id="footer" class="row" style="background-color: bisque;">
                 Footer nè
             </div>
         </div>
