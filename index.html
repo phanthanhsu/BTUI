@@ -12,13 +12,60 @@
     <script src="./js/jquery-3.2.1.min.js" type="text/javascript"></script>
     <script src="./js/bootstrap-datepicker.js" type="text/javascript"></script>
     <script src="./js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="./js/loader.js" type="text/javascript"></script>
+    <script src="./js/data.js" type="text/javascript"></script>
+
 </head>
 
 <body>
     <script type="text/javascript">
         $(document).ready(function() {
             dateTimePicker();
+            loadDataGroup();
+            loadDataDriver();
+            setDataDriver();
         });
+
+        function loadDataGroup() {
+            data.forEach(function(item, index) {
+                var x = document.getElementById("ddlGroupName");
+                var option = document.createElement("option");
+                option.text = item.Group;
+                option.value = index;
+                x.add(option);
+                var itemGroup = `<div class="item-menu"><div class="image-item"><img src="./img/abc.png" alt="#"></div><div class="name-item"><label for="">` + item.Group + `</label></div></div>`;
+                $("#tabGroup").append(itemGroup);
+
+            });
+        }
+
+        function deleteOption() {
+            $("#ddlDriverName").empty();
+        }
+
+        function loadDataDriver() {
+            $("#tabDriver").html("");
+            var sortBtn = `<div style="width:100%; background-color: lightgrey; cursor: pointer;">⇅ Sort</div>`;
+            $("#tabDriver").append(sortBtn);
+            var y = document.getElementById("ddlDriverName");
+            data[$("#ddlGroupName").val()].Driver.forEach(function(itemDriver, index) {
+                var option = document.createElement("option");
+                option.text = itemDriver.Name;
+                option.value = index;
+                y.add(option);
+                var itemGroup = `<div class="item-menu"><div class="image-item"><img src="./img/abc.png" alt="#"></div><div class="name-item"><label for="">` + itemDriver.Name + `</label></div></div>`;
+                $("#tabDriver").append(itemGroup);
+            });
+        }
+
+        function setDataDriver() {
+            var temp = document.getElementById("ddlDriverName");
+            dataDriver = data[$("#ddlGroupName").val()].Driver[$("#ddlDriverName").val()];
+            $("#txtDriverName").text(dataDriver.Name);
+            $("#txtDistance").text(dataDriver.Distance);
+            $("#txtTime").text(dataDriver.Time);
+            $("#txtSpeed").text(dataDriver.Speed);
+        }
 
         function dateTimePicker() {
             $("#txtDate").datepicker({
@@ -30,150 +77,102 @@
         function showCalendar(el) {
             $("[id$=" + el + "]").focus();
         }
+        google.charts.load('current', {
+            'packages': ['bar']
+        });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['', 'Driver1', 'Drive2', 'Drive3'],
+                ['Distance', 100, 40, 20],
+                ['Speed', 70, 46, 25],
+                ['Time', 66, 93, 30],
+                ['IdLing', 100, 54, 35]
+            ]);
+
+            var options = {
+                chart: {
+                    title: 'Chart',
+                },
+                bars: 'horizontal', // Required for Material Bar Charts.
+                hAxis: {
+                    format: 'decimal'
+                },
+                height: 400,
+                colors: ['#1b9e77', '#d95f02', '#7570b3']
+            };
+
+            var chart = new google.charts.Bar(document.getElementById('chart_div'));
+
+            chart.draw(data, google.charts.Bar.convertOptions(options));
+
+            var btns = document.getElementById('btn-group');
+
+            btns.onclick = function(e) {
+
+                if (e.target.tagName === 'BUTTON') {
+                    options.hAxis.format = e.target.id === 'none' ? '' : e.target.id;
+                    chart.draw(data, google.charts.Bar.convertOptions(options));
+                }
+            }
+        }
     </script>
     <div class="row">
-        <div class="col-sm-8 col-sm-offset-2">
+        <div class="col-md-8 col-md-offset-2">
             <div id="header" class="row" style="background-color: aquamarine;">
                 Header nè
             </div>
             <div class="row">
-                <div class="col-sm-3 ">
+                <div class="col-md-3 ">
                     <div class="row panel-body" style="background-color: dimgrey; color: white;">
                         <h3>Infomation</h3>
                         <label for="">Group name</label>
-                        <select class="select-transparent">
-                            <option value="A">Group A</option>
+                        <select id="ddlGroupName" onchange="deleteOption(); loadDataDriver();" class="select-transparent"></select>
+                        <label for="">Driver name</label>
+                        <select id="ddlDriverName" class="select-transparent">
                         </select>
-                        <label for="">Drive name</label>
-                        <select class="select-transparent">
-                            <option value="Name10">Drive name 10</option>
-                        </select>
-                        <div class="row col-sm-12">
-                            <div class="row col-sm-3" style="line-height: 60px; font-size:30px;">
+                        <div class="row">
+                            <div class="col-md-2" style="line-height: 60px; font-size:30px;">
                                 <a href="javascript:void(0);" class="calendar_icon_button" onclick="showCalendar('txtDate');"><span class="glyphicon glyphicon-calendar"></span></a>
                             </div>
-                            <div class="row col-sm-7">
+                            <div class="row col-md-5">
                                 <label for="">Date</label>
-                                <div class="row col-sm-12">
-                                    <input type="datetime" id="txtDate" class="select-transparent" maxlength="10" />
-                                </div>
+                                <input type="datetime" id="txtDate" class="select-transparent" maxlength="10" />
                             </div>
-                            <div class="row col-sm-6">
+                            <div class="col-md-6">
                                 <label for="">AAA</label>
                                 <select class="select-transparent">
                                         <option value="A">ABC</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="col-sm-12" style="text-align: center; margin: 10px;">
-                            <button type="button">Save</button>
+                        <div class="row" style="text-align: center; margin: 10px;">
+                            <button class="btn-save" onclick="setDataDriver();" type="button">Save</button>
                         </div>
                     </div>
                     <div class="row menu">
                         <div class="panel with-nav-tabs panel-default">
                             <div class="panel-heading">
                                 <ul class="nav nav-tabs">
-                                    <li><a href="#tab1default" data-toggle="tab">Group</a></li>
-                                    <li class="active"><a href="#tab2default" data-toggle="tab">Driver</a></li>
+                                    <li><a href="#tabGroup" data-toggle="tab">Group</a></li>
+                                    <li class="active"><a href="#tabDriver" data-toggle="tab">Driver</a></li>
                                 </ul>
                             </div>
                             <div class="panel-body">
                                 <div class="tab-content">
-                                    <div class="tab-pane fade" id="tab1default">
-                                        <div class="item-menu">
-                                            <div class="image-item">
-                                                <img src="./img/abc.png" alt="#">
-                                            </div>
-                                            <div class="name-item">
-                                                <label for="">Group Name 1</label>
-                                            </div>
-                                        </div>
-                                        <div class="item-menu">
-                                            <div class="image-item">
-                                                <img src="./img/abc.png" alt="#">
-                                            </div>
-                                            <div class="name-item">
-                                                <label for="">Group Name 2</label>
-                                            </div>
-                                        </div>
+                                    <div class="tab-pane fade" id="tabGroup">
                                     </div>
-                                    <div class="tab-pane fade in active" id="tab2default">
-                                        <div style="width:100%; background-color: lightgrey; cursor: pointer;">
-                                            ⇅ Sort
-                                        </div>
-                                        <div class="item-menu">
-                                            <div class="image-item">
-                                                <img src="./img/abc.png" alt="#">
-                                            </div>
-                                            <div class="name-item">
-                                                <label for="">Driver Name 1</label>
-                                            </div>
-                                        </div>
-                                        <div class="item-menu">
-                                            <div class="image-item">
-                                                <img src="./img/abc.png" alt="#">
-                                            </div>
-                                            <div class="name-item">
-                                                <label for="">Driver Name 2</label>
-                                            </div>
-                                        </div>
-                                        <div class="item-menu">
-                                            <div class="image-item">
-                                                <img src="./img/abc.png" alt="#">
-                                            </div>
-                                            <div class="name-item">
-                                                <label for="">Driver Name 3</label>
-                                            </div>
-                                        </div>
-                                        <div class="item-menu">
-                                            <div class="image-item">
-                                                <img src="./img/abc.png" alt="#">
-                                            </div>
-                                            <div class="name-item">
-                                                <label for="">Driver Name 4</label>
-                                            </div>
-                                        </div>
-                                        <div class="item-menu">
-                                            <div class="image-item">
-                                                <img src="./img/abc.png" alt="#">
-                                            </div>
-                                            <div class="name-item">
-                                                <label for="">Driver Name 5</label>
-                                            </div>
-                                        </div>
-                                        <div class="item-menu">
-                                            <div class="image-item">
-                                                <img src="./img/abc.png" alt="#">
-                                            </div>
-                                            <div class="name-item">
-                                                <label for="">Driver Name 6</label>
-                                            </div>
-                                        </div>
-                                        <div class="item-menu">
-                                            <div class="image-item">
-                                                <img src="./img/abc.png" alt="#">
-                                            </div>
-                                            <div class="name-item">
-                                                <label for="">Driver Name 7</label>
-                                            </div>
-                                        </div>
-                                        <div class="item-menu">
-                                            <div class="image-item">
-                                                <img src="./img/abc.png" alt="#">
-                                            </div>
-                                            <div class="name-item">
-                                                <label for="">Driver Name 8</label>
-                                            </div>
-                                        </div>
+                                    <div class="tab-pane fade in active" id="tabDriver">
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div id="content" class="col-sm-9 pull-right background-default">
+                <div id="content" class="col-md-9 pull-right background-default">
                     <div class="row">
-                        <label for=""><a>Tenant A</a>/ <a>Group A</a>/ Drive name 10</label>
+                        <label for=""><a>Tenant A</a>/ <a>Group A</a>/ <label for="" id="txtDriverName"></label></label>
                         <div class="pull-right" style="padding-right: 30px;">
                             <button type="button">BUTTON</button>
                         </div>
@@ -183,27 +182,24 @@
                     </div>
                     <div>
                         <div class="item-menu" style="min-height: 30px;">
-                            <label for="" class="pull-left">Sistance</label>
-                            <label for="" class="pull-right">39 <span>(km)</span></label>
+                            <label for="" class="pull-left">Distance</label>
+                            <label for="" id="txtDistance" class="pull-right">39</label> <span>(km)</span>
                         </div>
                     </div>
                     <div>
                         <div class="item-menu" style="min-height: 30px;">
                             <label for="" class="pull-left">Time</label>
-                            <label for="" class="pull-right">2.5 <span>(h)</span></label>
+                            <label for="" id="txtTime" class="pull-right">2.5</label> <span>(h)</span>
                         </div>
                     </div>
                     <div>
                         <div class="item-menu" style="min-height: 30px;">
                             <label for="" class="pull-left">Speed</label>
-                            <label for="" class="pull-right">115 <span>(km/h)</span></label>
+                            <label for="" id="txtSpeed" class="pull-right">115</label> <span>(km/h)</span>
                         </div>
                     </div>
-                    <div class="chart col-sm-12">
-                        <div class="row">
-                            Chart
-                        </div>
-                        <img src="./img/chart.png" alt="" style="width: 80%;">
+                    <div class="chart">
+                        <div id="chart_div"></div>
                     </div>
                 </div>
             </div>

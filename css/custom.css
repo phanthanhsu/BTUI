@@ -22,8 +22,6 @@
     float: left;
 }
 
-#content {}
-
 .chart {
     margin: 10px;
     background-color: white;
@@ -41,4 +39,12 @@
     border: 0;
     border-bottom: 1px solid #ABB6C0;
     margin-bottom: 10px;
+}
+
+.btn-save {
+    padding: 10px;
+    width: 150px;
+    background-color: darkgrey;
+    color: #FFF;
+    border: 0;
 }
